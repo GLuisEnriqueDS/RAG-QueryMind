@@ -21,13 +21,15 @@ Permite realizar consultas en lenguaje natural sobre una base de datos comercial
    ```bash
   python -m venv venv
   venv\Scripts\activate
-4. Instala las dependencias:
+  ```
+3. Instala las dependencias:
    pip install -r requirements.txt
-5.  Configuración
+4.  Configuración
  Crea un archivo .env en la raíz del proyecto con la api key.
-6. Ejecución
+5. Ejecución
    ```bash
-  python -m app.main
+   python -m app.main
+   ```
 
 ##  Estructura del proyecto
 
