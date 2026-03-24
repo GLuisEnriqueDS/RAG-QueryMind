@@ -14,6 +14,7 @@ Permite realizar consultas en lenguaje natural sobre una base de datos comercial
 ##  Instalación
 
 1. Clona el repositorio y accede a la carpeta del proyecto:
+   ```bash
    cd rag_database
 2. Crea y activa un entorno virtual:
   python -m venv venv
@@ -21,12 +22,13 @@ Permite realizar consultas en lenguaje natural sobre una base de datos comercial
 3. Instala las dependencias:
   pip install -r requirements.txt
 4.  Configuración
- Crea un archivo .env en la raíz del proyecto con las siguientes variables:
+ Crea un archivo .env en la raíz del proyecto con las siguientes variables
 5. Ejecución
   python -m app.main
 
 ##  Estructura del proyecto
 
+```bash
 rag_database/
 ├── app/
 │   ├── main.py
