@@ -1,0 +1,107 @@
+[
+  {
+    "pregunta": "¿Cuáles son los nombres de todas las agencias registradas?",
+    "sql": "SELECT nombre FROM Agencia;",
+    "entidad": "Agencia",
+    "variable": "Master",
+    "requiere_filtro": false
+  },
+  {
+    "pregunta": "¿Cuánto ha vendido la Agencia {{agencia}}?",
+    "sql": "SELECT SUM(v.monto_total) as ventas_totales FROM Agencia ag JOIN Agente a ON ag.agenciaID = a.agenciaID JOIN Venta v ON a.agenteID = v.agenteID WHERE ag.nombre = '{{agencia}}';",
+    "entidad": "Agencia",
+    "variable": "Ventas",
+    "requiere_filtro": true
+  },
+  {
+    "pregunta": "¿Qué agentes trabajan en la Agencia {{agencia}}?",
+    "sql": "SELECT a.nombre FROM Agente a JOIN Agencia ag ON a.agenciaID = ag.agenciaID WHERE ag.nombre = '{{agencia}}';",
+    "entidad": "Agente",
+    "variable": "Lista",
+    "requiere_filtro": true
+  },
+  {
+    "pregunta": "¿Qué representantes comerciales guían a más de 2 agentes?",
+    "sql": "SELECT r.nombre, COUNT(a.agenteID) as total_agentes FROM RepresentanteComercial r JOIN Agente a ON r.representanteID = a.representanteID GROUP BY r.nombre HAVING COUNT(a.agenteID) > 2;",
+    "entidad": "Representante Comercial",
+    "variable": "Lista",
+    "requiere_filtro": false
+  },
+  {
+    "pregunta": "¿Cuál es el agente que ha realizado más ventas?",
+    "sql": "SELECT a.nombre, COUNT(v.ventaID) as total_ventas FROM Agente a JOIN Venta v ON a.agenteID = v.agenteID GROUP BY a.nombre ORDER BY total_ventas DESC LIMIT 1;",
+    "entidad": "Agente",
+    "variable": "Ventas",
+    "requiere_filtro": false
+  },
+  {
+    "pregunta": "¿Cuál es el monto total de ventas por cada agencia?",
+    "sql": "SELECT ag.nombre, SUM(v.monto_total) as ventas_totales FROM Agencia ag JOIN Agente a ON ag.agenciaID = a.agenciaID JOIN Venta v ON a.agenteID = v.agenteID GROUP BY ag.nombre;",
+    "entidad": "Agencia",
+    "variable": "Ventas",
+    "requiere_filtro": false
+  },
+  {
+    "pregunta": "¿Qué clientes han realizado compras superiores a $2000?",
+    "sql": "SELECT c.nombre, v.monto_total FROM Cliente c JOIN Venta v ON c.clienteID = v.clienteID WHERE v.monto_total > 2000;",
+    "entidad": "Cliente",
+    "variable": "Ventas",
+    "requiere_filtro": false
+  },
+  {
+    "pregunta": "¿Cuántas ventas ha realizado cada agente en el año 2023?",
+    "sql": "SELECT a.nombre, COUNT(v.ventaID) as ventas_2023 FROM Agente a LEFT JOIN Venta v ON a.agenteID = v.agenteID AND strftime('%Y', v.fecha) = '2023' GROUP BY a.nombre;",
+    "entidad": "Agente",
+    "variable": "Ventas",
+    "requiere_filtro": false
+  },
+  {
+    "pregunta": "¿Qué representante comercial tiene los agentes con mayores ventas totales?",
+    "sql": "SELECT r.nombre, SUM(v.monto_total) as ventas_totales FROM RepresentanteComercial r JOIN Agente a ON r.representanteID = a.representanteID JOIN Venta v ON a.agenteID = v.agenteID GROUP BY r.nombre ORDER BY ventas_totales DESC;",
+    "entidad": "Representante Comercial",
+    "variable": "Ventas",
+    "requiere_filtro": false
+  },
+  {
+    "pregunta": "¿Qué agentes no han realizado ninguna venta?",
+    "sql": "SELECT a.nombre FROM Agente a LEFT JOIN Venta v ON a.agenteID = v.agenteID WHERE v.ventaID IS NULL;",
+    "entidad": "Agente",
+    "variable": "Lista",
+    "requiere_filtro": false
+  },
+  {
+    "pregunta": "¿Cuál es el promedio de ventas de un agente específico {{agente}}?",
+    "sql": "SELECT a.nombre, AVG(v.monto_total) as promedio_ventas FROM Agente a JOIN Venta v ON a.agenteID = v.agenteID WHERE a.nombre = '{{agente}}' GROUP BY a.nombre;",
+    "entidad": "Agente",
+    "variable": "Ventas",
+    "requiere_filtro": true
+  },
+  {
+    "pregunta": "¿Cuánto ha vendido un representante comercial específico {{representante}}?",
+    "sql": "SELECT r.nombre, SUM(v.monto_total) as ventas_totales FROM RepresentanteComercial r JOIN Agente a ON r.representanteID = a.representanteID JOIN Venta v ON a.agenteID = v.agenteID WHERE r.nombre = '{{representante}}' GROUP BY r.nombre;",
+    "entidad": "Representante Comercial",
+    "variable": "Ventas",
+    "requiere_filtro": true
+  },
+  {
+    "pregunta": "¿Qué productos tienen un precio mayor al promedio de todos los productos?",
+    "sql": "SELECT nombre, precio FROM Producto WHERE precio > (SELECT AVG(precio) FROM Producto);",
+    "entidad": "Producto",
+    "variable": "Master",
+    "requiere_filtro": false
+  },
+  {
+    "pregunta": "¿Cuál es el cliente que ha gastado más dinero en total?",
+    "sql": "SELECT c.nombre, SUM(v.monto_total) as total_gastado FROM Cliente c JOIN Venta v ON c.clienteID = v.clienteID GROUP BY c.nombre ORDER BY total_gastado DESC LIMIT 1;",
+    "entidad": "Cliente",
+    "variable": "Ventas",
+    "requiere_filtro": false
+  },
+  {
+    "pregunta": "¿Qué agentes pertenecen al representante comercial {{representante}}?",
+    "sql": "SELECT a.nombre FROM Agente a JOIN RepresentanteComercial r ON a.representanteID = r.representanteID WHERE r.nombre = '{{representante}}';",
+    "entidad": "Agente",
+    "variable": "Lista",
+    "requiere_filtro": true
+  }
+]
